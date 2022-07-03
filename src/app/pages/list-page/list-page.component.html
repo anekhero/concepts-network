@@ -1,3 +1,21 @@
-<a routerLink="/create">Create</a>
-<a routerLink="/details/1">To Concept #1</a>
-<p>list-page works!</p>
+
+<button mat-raised-button color="primary" routerLink="/create">Create</button>
+
+<mat-table [dataSource]="dataSource">
+  <!-- User name Definition -->
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+    <mat-cell *matCellDef="let row"><a [routerLink]="['/details', row.id]">{{row.id}}</a></mat-cell>
+  </ng-container>
+
+  <!-- Age Definition -->
+  <ng-container matColumnDef="summary">
+    <mat-header-cell *matHeaderCellDef> Summary </mat-header-cell>
+    <mat-cell *matCellDef="let row"> {{row.summary}} </mat-cell>
+  </ng-container>
+
+  <!-- Header and Row Declarations -->
+  <mat-header-row *matHeaderRowDef="['id', 'summary']"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: ['id', 'summary']"></mat-row>
+</mat-table>
+<div style="text-align: center; padding: 5px;" *ngIf="dataSource.length === 0">No concepts found</div>

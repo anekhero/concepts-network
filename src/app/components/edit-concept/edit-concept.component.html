@@ -1,0 +1,53 @@
+<div [formGroup]="form">
+  <div fxFlex="100%" fxLayout="column">
+    <mat-form-field fxFlex="100%" fxLayout="column" appearance="fill">
+      <mat-label>Summary</mat-label>
+      <input matInput placeholder="Enter summary" formControlName="summary">
+    </mat-form-field>
+
+    <div fxFlex="100%" fxLayout="columns">
+      <mat-chip-list>
+        <mat-chip *ngFor="let l of linked$ | async">
+          <mat-icon [title]="l.relation | relationName:l.reverse">{{ l.relation | relationIconName:l.reverse }}</mat-icon>
+          <a [routerLink]="['/details', l.linked?.id]">{{ l.linked?.summary }}</a>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+
+    <mat-form-field fxFlex="100%" fxLayout="column" appearance="fill">
+      <mat-label>Add "{{ defaultLinkRelation | relationName }}" relation</mat-label>
+      <input type="text" matInput [formControl]="linkFilterControl" [matAutocomplete]="auto" (keydown.enter)="createNewConcept($event)">
+      <mat-icon
+        matPrefix
+        (click)="changeDefaultLinkRelation()"
+      >{{ defaultLinkRelation | relationIconName }}</mat-icon>
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        [displayWith]="getConceptSummary"
+        [autoActiveFirstOption]="false"
+        (optionSelected)="linkConcept($event.option.value)"
+      >
+        <mat-option *ngFor="let c of addLinkOptions$ | async" [value]="c">
+          {{c.summary}}
+        </mat-option>
+      </mat-autocomplete>
+
+    </mat-form-field>
+
+    <mat-form-field fxFlex="100%" fxLayout="column" appearance="fill" style="height: 200px;">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        placeholder="Enter description"
+        formControlName="description"
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="5"
+        cdkAutosizeMaxRows="100"
+      ></textarea>
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutAlign="end start">
+      <button mat-raised-button color="primary" (click)="onSave()">Save</button>
+    </div>
+  </div>
+</div>

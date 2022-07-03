@@ -1,2 +1,5 @@
-<a routerLink="/list">To list</a>
-<p>details-page works!</p>
+<button mat-raised-button color="primary" routerLink="/list">To list</button>
+
+<app-edit-concept *ngIf="concept" [concept]="concept"></app-edit-concept>
+
+<div *ngIf="!concept">Cannot find concept with id = {{ id }}</div>

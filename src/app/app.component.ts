@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { createConcept } from './akita/concept.model';
+import { ConceptsStore } from './akita/concepts.store';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'concepts-network';
+  constructor(
+    private cs: ConceptsStore
+  ){
+    this.cs.set([
+     createConcept({summary: 'base'}),
+     createConcept({summary: 'main'}),
+     createConcept({summary: 'old'}),
+    ]);
+  }
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Concept } from 'src/app/akita/concept.model';
+import { ConceptsQuery } from 'src/app/akita/concepts.query';
 
 @Component({
   selector: 'app-list-page',
@@ -7,7 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListPageComponent implements OnInit {
 
-  constructor() { }
+  displayedColumns: string[] = ['id', 'summary'];
+  dataSource: Concept[] = [];
+
+  constructor(
+    public conceptsQuery: ConceptsQuery
+  ) {
+    conceptsQuery.selectAll().subscribe(concepts => this.dataSource = concepts);
+  }
 
   ngOnInit(): void {
   }
